@@ -73,14 +73,12 @@ func (c *Scriper) GetList(selector string) {
 	})
 }
 
-func (c *Scriper) GetIgnorFile(url string) bool {
+func (c *Scriper) GetIgnorFile(url string) {
 
-	didFindLanguage := false
 	c.Colllection.OnHTML("script[type=\"application/json\"]", func(h *colly.HTMLElement) {
 
 		if strings.Contains(h.Text, "payload") {
 
-			didFindLanguage = true
 			start := strings.Index(h.Text, "rawLines")
 			end := strings.Index(h.Text, "stylingDirectives")
 
@@ -94,14 +92,17 @@ func (c *Scriper) GetIgnorFile(url string) bool {
 			fmt.Println(result[1 : len(result)-2])
 		}
 	})
-	return didFindLanguage
 }
 
-func (c *Scriper) Visit(url string) error {
+func (c *Scriper) OnError() {
 
-	err := c.Colllection.Visit(url)
-	if nil != err {
-		return err
-	}
-	return nil
+	c.Colllection.OnError(func(r *colly.Response, err error) {
+
+		fmt.Println("cound not find language")
+	})
+}
+
+func (c *Scriper) Visit(url string)  {
+
+	_ = c.Colllection.Visit(url)
 }

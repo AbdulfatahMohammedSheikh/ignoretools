@@ -27,7 +27,9 @@ func main() {
 
 			c := scriper.New()
 			c.GetList("script[type=\"application/json\"]")
+            c.OnError()
 			c.Visit("https://github.com/github/gitignore/tree/main")
+
 
 		default:
 
@@ -41,6 +43,7 @@ func main() {
 
 			c := scriper.New()
 			c.GetIgnorFile("script[type=\"application/json\"]")
+            c.OnError()
 			ulr := fmt.Sprintf("https://github.com/github/gitignore/blob/main/%s.gitignore", lang)
 			c.Visit(ulr)
 
