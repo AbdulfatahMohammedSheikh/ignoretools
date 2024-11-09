@@ -102,7 +102,7 @@ func (c *Scriper) OnError() {
 	})
 }
 
-func (c *Scriper) Visit(url string)  {
+func (c *Scriper) Visit(url string) {
 
 	_ = c.Colllection.Visit(url)
 }

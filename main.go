@@ -10,13 +10,12 @@ import (
 )
 
 func main() {
-	// TODO: read args
+
 
 	args := os.Args
 
-	if 1 == len(args) {
-		// TODO: print the mainual or help message
-		fmt.Println("no args was passed")
+	if len(args) < 2 {
+		fmt.Println("no args was passed use --help to get more inforamtion")
 	}
 
 	if 2 == len(args) {
@@ -27,10 +26,12 @@ func main() {
 
 			c := scriper.New()
 			c.GetList("script[type=\"application/json\"]")
-            c.OnError()
+			c.OnError()
 			c.Visit("https://github.com/github/gitignore/tree/main")
 
-
+		case "--help":
+			fmt.Println("use --list to check if the language is supported")
+			fmt.Println("use <lang_name> to get the .gitignore file data")
 		default:
 
 			lang := args[1]
@@ -43,7 +44,7 @@ func main() {
 
 			c := scriper.New()
 			c.GetIgnorFile("script[type=\"application/json\"]")
-            c.OnError()
+			c.OnError()
 			ulr := fmt.Sprintf("https://github.com/github/gitignore/blob/main/%s.gitignore", lang)
 			c.Visit(ulr)
 
